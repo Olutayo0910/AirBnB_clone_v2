@@ -30,6 +30,28 @@ class HBNBCommand(cmd.Cmd):
              'latitude': float, 'longitude': float
             }
 
+    def edit_value(self, arg):
+        """This edits the values from the command line"""
+        if arg:
+            if arg[0] == '"' and arg[len(arg) - 1] == '"':
+                value = ""
+                for i in range(1, len(arg) - 1):
+                    if arg[i] == "_":
+                        value += " "
+                        continue
+                    value += arg[i]
+            else:
+                try:
+                    if "." in arg:
+                        value = float(arg)
+                    else:
+                        value = int(arg)
+                except ValueError:
+                    return None
+            return value
+        else:
+            return None
+
     def preloop(self):
         """Prints if isatty is false"""
         if not sys.__stdin__.isatty():
@@ -73,7 +95,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -118,13 +140,25 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+
+        parameters = args.split()
+        if parameters[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+
+        new_instance = HBNBCommand.classes[parameters[0]]()
+        for i in range(1, len(parameters)):
+            key_value_pair = parameters[i].split("=")
+            if len(key_value_pair) == 2:
+                key = key_value_pair[0]
+                value = self.edit_value(key_value_pair[1])
+                if value is not None:
+                    setattr(new_instance, key, value)
+            else:
+                pass
+
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -319,6 +353,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
