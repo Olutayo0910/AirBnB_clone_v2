@@ -77,7 +77,9 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
         Base.metadata.create_all(self.__engine)
 
-        session_option =
-        sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_option = sessionmaker(
+                bind=self.__engine,
+                expire_on_commit=False
+                )
         Session = scoped_session(session_option)
         self.__session = Session()
