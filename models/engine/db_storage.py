@@ -28,6 +28,7 @@ class DBStorage:
         from models.place import Place
         from models.review import Review
         from models.state import City
+        from models.base_model import Base
 
         classes = [
             City,
