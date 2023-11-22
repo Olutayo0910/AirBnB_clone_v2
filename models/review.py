@@ -2,7 +2,7 @@
 """ Review module for the HBNB project """
 from models.base_model import BaseModel, Base
 from os import getenv
-from sqlalchemy import String, ForeignKey, Column
+from sqlalchemy import String, ForeignKey, Column, Text
 from sqlalchemy.orm import relationship
 
 
@@ -13,7 +13,7 @@ class Review(BaseModel, Base):
     """ Review classto store review information """
     __tablename__ = "reviews"
     if storage_type == "db":
-        text = Column(String(1024), nullable=False)
+        text = Column(Text(1024), nullable=False)
         place_id = Column(String(60), ForeignKey("places.id"), nullable=False)
         users_id = Column(String(60), ForeignKey("users.id"), nullable=False)
     else:
