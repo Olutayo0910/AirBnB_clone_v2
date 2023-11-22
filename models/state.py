@@ -12,7 +12,7 @@ class State(BaseModel, Base):
     name = Column(String(128), nullable=False)
 
     cities = relationship(
-        "city",
+        "City",
         cascade="all,delete,delete-orphan",
         backref=backref("state", cascade="all,delete"),
         passive_deletes=True,
