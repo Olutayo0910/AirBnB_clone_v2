@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-"""Module for DBStorage class"""
+"""Module for new DBStorage class"""
 from os import getenv
 from sqlalchemy import create_engine, MetaData
-from sqlalchemy.orm import sessionmaker, scoped_session
 
 
 class DBStorage:
@@ -11,7 +10,7 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """Initializes the storage"""
+        """Initialize the storage"""
         from models.base_model import Base
         self.__engine = create_engine(
             'mysql+mysqldb://{}:{}@{}:3306/{}'
@@ -23,12 +22,12 @@ class DBStorage:
 
     def all(self, cls=None):
         """query on the current database session"""
-        from models.city import City
+        from models.city import State
         from models.user import User
         from models.amenity import Amenity
         from models.place import Place
         from models.review import Review
-        from models.state import State
+        from models.state import City
 
         classes = [
             City,
@@ -83,3 +82,7 @@ class DBStorage:
                 )
         Session = scoped_session(session_option)
         self.__session = Session()
+
+    def close(self):
+        """Close session"""
+        self.__session.close()
