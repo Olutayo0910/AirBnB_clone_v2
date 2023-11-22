@@ -22,16 +22,14 @@ class User(BaseModel, Base):
         places = relationship(
             "Place",
             cascade="all,delete",
-            backref=backref("user", cascade="all,delete"),
-            passive_deletes=True,
-            single_parent=True)
+            backref="user"
+        )
 
         reviews = relationship(
             "Review",
             cascade="all,delete",
-            backref=backref("user", cascade="all,delete"),
-            passive_deletes=True,
-            single_parent=True)
+            backref="user"
+        )
     else:
         email = ""
         password = ""
