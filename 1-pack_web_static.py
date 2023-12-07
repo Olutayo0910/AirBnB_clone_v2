@@ -5,7 +5,6 @@ import os
 from datetime import datetime
 
 
-
 def do_pack():
     """creates .tgz file"""
     date = datetime.now().strftime("%Y%m%d%H%M%S")
