@@ -26,7 +26,7 @@ def do_deploy(archive_path):
     run("tar -xzf /tmp/" + base_name + " -C " + newdir)
 
     run("rm /tmp/" + base_name)
-    run("mv " + newdir + "/web_static/* " + newdir)
+    run("rsync -a {}/web_static/ {}/".format(newdir, newdir))
     run("rm -rf " + newdir + "/web_static")
     run("rm -rf /data/web_static/current")
     run("ln -s " + newdir + " /data/web_static/current")
