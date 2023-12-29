@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""This is the file storage class for AirBnB"""
+"""file storage class for AirBnB"""
 import json
 from models.base_model import BaseModel
 from models.user import User
@@ -11,8 +11,7 @@ from models.review import Review
 
 
 class FileStorage:
-    """This class serializes instances to a JSON file and
-    deserializes JSON file to instances
+    """This class serializes instances to a JSON file
     Attributes:
         __file_path: path to the JSON file
         __objects: objects will be stored
@@ -32,6 +31,15 @@ class FileStorage:
             del self.__objects[key]
             self.save()
 
+    def new(self, obj):
+        """sets __object to given obj
+        Args:
+            obj: given object
+        """
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            self.__objects[key] = obj
+
     def all(self, cls=None):
         """returns a dictionary
         Args:
@@ -42,15 +50,6 @@ class FileStorage:
         if not cls:
             return self.__objects
         return {k: v for k, v in self.__objects.items() if type(v) == cls}
-
-    def new(self, obj):
-        """sets __object to given obj
-        Args:
-            obj: given object
-        """
-        if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            self.__objects[key] = obj
 
     def save(self):
         """serialize the file path to JSON file path
