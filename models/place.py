@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, Table, ForeignKey, Float
-from sqlalchemy.orm import relationship, backref
+from models.review import Review
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
+from sqlalchemy.orm import relationship
 from os import getenv
-
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
 
-
+# Define the association table for the many-to-many relationship
 place_amenity = Table(
     "place_amenity",
     Base.metadata,
